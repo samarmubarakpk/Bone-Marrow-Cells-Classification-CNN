@@ -1,7 +1,7 @@
 from src.Cnn_Classifier.constant import *
 
-from Cnn_Classifier.entity.config_entity import DataIngestionConfig
-from Cnn_Classifier.utils.common import read_yaml , create_directories
+from Cnn_Classifier.entity.config_entity import DataIngestionConfig , EvaluationConfig
+from Cnn_Classifier.utils.common import read_yaml , create_directories , save_json
 
 class ConfigurationManager:
     def __init__(
@@ -26,3 +26,14 @@ class ConfigurationManager:
             val_data_dir=config.val_data_dir
         )
         return data_ingestion_config
+    
+    def get_evaluation_config(self) -> EvaluationConfig:
+        eval_config = EvaluationConfig(
+            path_of_model="artifacts/training/my_model_83%.h5",
+            training_data="artifacts/data_ingestion/bone_marrow_cell_dataset",
+            mlflow_uri="https://dagshub.com/samarmubarakofficial/Bone-Marrow-Cells-Classification-CNN.mlflow",
+            all_params=self.params,
+            params_image_size=self.params.IMAGE_SIZE,
+            params_batch_size=self.params.BATCH_SIZE
+        )
+        return eval_config
